@@ -22,3 +22,6 @@ To run the application locally, follow these steps:
    ```bash
    docker-compose up
    ```
+
+## Backend Documentation
+```./star-wars-card-collector/docs```
