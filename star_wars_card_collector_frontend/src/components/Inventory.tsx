@@ -40,7 +40,7 @@ const Inventory = ({ onOpenCreateBtnClick }) => {
   return (
     <div className='flex flex-col items-center'>
       <h1 className='text-4xl font-bold mb-4'>Inventory</h1>
-      <LoadingButton onClick={openCreate}>Open Create</LoadingButton>
+      <LoadingButton onClick={openCreate}>Open Crate</LoadingButton>
       <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-6'>
         {inventory.map((item, index) => (
           <Card key={index} {...JSON.parse(item)} />
