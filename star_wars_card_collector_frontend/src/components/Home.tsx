@@ -7,19 +7,12 @@ import { AuthContext } from '../context/AuthContext';
 import Inventory from '../components/Inventory';
 
 const Home = () => {
-  const { user } = useUser() as any;
-  const [currency, setCurrency] = useState(user?.currency || 0);
+  const { user, updateUser } = useUser() as any;
   const { logout } = useContext(AuthContext);
   const navigate = useNavigate();
 
   useEffect(() => {
-    setCurrency(user?.currency || 0);
-  }, [user]);
-
-  useEffect(() => {
-    if (user) {
-      window.location.reload(); // Force reload if user just logged in
-    }
+    updateUser({ ...user, currency: user?.currency || 0 });
   }, []);
 
   const handleLogout = async () => {
@@ -32,8 +25,7 @@ const Home = () => {
   };
 
   const handleCurrencyChange = (newCurrency: number) => {
-    console.log('Currency changed:', newCurrency);
-    setCurrency(newCurrency);
+    updateUser({ ...user, currency: newCurrency });
   };
 
   if (!user) return <div>Loading...</div>;
@@ -45,7 +37,7 @@ const Home = () => {
         Welcome, <span className='font-semibold'>{user?.username}</span>!
       </p>
       <p className='text-lg mb-6'>
-        Money: <span className='font-semibold text-yellow-500'>{currency} Gold</span>
+        Money: <span className='font-semibold text-yellow-500'>{user?.currency} Gold</span>
       </p>
 
       <button
