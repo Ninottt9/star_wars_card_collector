@@ -97,14 +97,18 @@ public class UserController {
         JSONObject randomPerson = swapiService.getPersonAt(randomIndex);
 
         JSONObject dataToSave = new JSONObject();
-        dataToSave.put("name", randomPerson.getString("name"));
-        dataToSave.put("birth_year", randomPerson.getString("birth_year"));
-        dataToSave.put("eye_color", randomPerson.getString("eye_color"));
-        dataToSave.put("gender", randomPerson.getString("gender"));
-        dataToSave.put("hair_color", randomPerson.getString("hair_color"));
-        dataToSave.put("height", randomPerson.getString("height"));
-        dataToSave.put("mass", randomPerson.getString("mass"));
-        dataToSave.put("skin_color", randomPerson.getString("skin_color"));
+        dataToSave.put("name", randomPerson.optString("name"));
+        dataToSave.put("eye_color", randomPerson.optString("eyeColor"));
+        dataToSave.put("gender", randomPerson.optString("gender"));
+        dataToSave.put("hair_color", randomPerson.optString("hairColor"));
+        dataToSave.put("height", randomPerson.opt("height"));
+        dataToSave.put("mass", randomPerson.opt("mass"));
+        dataToSave.put("skin_color", randomPerson.optString("skinColor"));
+        dataToSave.put("image", randomPerson.optString("image"));
+
+        dataToSave.put("bornLocation", randomPerson.optString("bornLocation"));
+        dataToSave.put("species", randomPerson.optString("species"));
+        dataToSave.put("born", randomPerson.optString("born"));
 
         inventory.getNames().add(dataToSave.toString());
         inventoryRepository.save(inventory);

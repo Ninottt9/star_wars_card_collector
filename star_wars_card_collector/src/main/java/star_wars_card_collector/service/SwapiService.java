@@ -1,10 +1,17 @@
 package star_wars_card_collector.service;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.json.JSONArray;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import javax.annotation.PostConstruct;
 import org.json.JSONObject;
+
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Service class to interact with the Star Wars API (SWAPI) for fetching character information.
@@ -12,8 +19,9 @@ import org.json.JSONObject;
 @Service
 public class SwapiService {
 
-    private static final String SWAPI_URL = "https://swapi.dev/api/people";
+    private static final String SWAPI_URL = "https://rawcdn.githack.com/akabab/starwars-api/0.2.1/api/";
     private int peopleCount;
+    private JSONArray people;
 
     /**
      * Initializes the service by fetching the total count of people (characters) available in SWAPI.
@@ -21,10 +29,10 @@ public class SwapiService {
     @PostConstruct
     public void fetchPeopleCount() {
         RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<String> response = restTemplate.getForEntity(SWAPI_URL, String.class);
-        // Parse JSON response to extract count
-        JSONObject jsonObject = new JSONObject(response.getBody());
-        this.peopleCount = jsonObject.getInt("count");
+        ResponseEntity<String> response = restTemplate.getForEntity(SWAPI_URL+"all.json", String.class);
+        JSONArray jsonArray = new JSONArray(response.getBody());
+        peopleCount = jsonArray.length();
+        people = jsonArray;
     }
 
     /**
@@ -34,10 +42,7 @@ public class SwapiService {
      * @return JSONObject containing the details of the person.
      */
     public JSONObject getPersonAt(int id) {
-        RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<String> response = restTemplate.getForEntity(SWAPI_URL + "/" + id, String.class);
-        JSONObject jsonObject = new JSONObject(response.getBody());
-        return jsonObject;
+        return people.getJSONObject(id);
     }
 
     /**

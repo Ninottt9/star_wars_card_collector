@@ -20,6 +20,7 @@ public class Inventory {
     private Long id;
 
     @ElementCollection
-    @Column(name = "names")
+    @CollectionTable(name = "inventory_names", joinColumns = @JoinColumn(name = "inventory_id"))
+    @Column(name = "name", columnDefinition = "TEXT")
     private List<String> names;
 }
